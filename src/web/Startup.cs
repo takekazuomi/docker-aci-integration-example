@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StackExchange.Redis;
 
 namespace web
 {
@@ -17,6 +14,8 @@ namespace web
         public void ConfigureServices(IServiceCollection services)
         {
         }
+
+        private readonly ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("redis:6379");
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -32,7 +31,9 @@ namespace web
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    var db = redis.GetDatabase();
+                    var c = await db.StringIncrementAsync("hits", 1);
+                    await context.Response.WriteAsync($"Hello ACI 2! I have been seen {c} times.\n");
                 });
             });
         }
