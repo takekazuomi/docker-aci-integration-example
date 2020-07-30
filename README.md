@@ -41,6 +41,10 @@ docker -c mycontext compose down
 
 クロスプラットフォーム(Mac, Windows, WSL2, Linux)で動くはず。
 
+## サンプルコードの注釈
+
+[docker-compose.yml](./docker-compose.yml)
+
 ## TODO
 
 - image の更新方法。down して、up すれば更新されるけど。コンテナグループの特定のコンテナだけ更新したい。
@@ -48,3 +52,4 @@ docker -c mycontext compose down
 - Log Analytics、Application Insightsにログを送るサンプルを作る
 - 自己署名証明書も上げた方がいいかのなと思うが、クロスプラットフォームで動くようにするのはどうするかを検討。
 - .gitattributes で、lf にしたときの微妙な動きをどこかに書く
+- ACI 固有の設定をどう書くのかを確認。たとえば、DNS名とか。
